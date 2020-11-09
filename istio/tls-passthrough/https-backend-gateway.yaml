@@ -1,0 +1,24 @@
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: https-backend-gateway
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+  - hosts:
+    - backend.192-168-99-100.nip.io
+    port:
+      name: http-192-168-99-101.nip.io
+      number: 80
+      protocol: HTTP
+    tls:
+      httpsRedirect: true
+  - hosts:
+    - backend.192-168-99-100.nip.io
+    port:
+      name: https-192-168-99-101.nip.io
+      number: 443
+      protocol: HTTPS
+    tls:
+      mode: PASSTHROUGH

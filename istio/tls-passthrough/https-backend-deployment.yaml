@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+spec:
+  selector:
+    matchLabels:
+      app: backend
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+        - name: backend
+          image: steveltn/https-portal:1
+          env:
+          - name: DOMAINS
+            value: backend.192-168-99-100.nip.io
+          - name: STAGE
+            value: local
+          ports:
+          - containerPort: 443
+            name: https
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: backend
+spec:
+  ports:
+    - protocol: TCP
+      port: 443
+      name: https
+  selector:
+    app: backend
